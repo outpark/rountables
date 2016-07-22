@@ -15,14 +15,26 @@ exports.initApp = function(app) {
     app.route('/api/users/signup')
     .post(user_ctrl.signup);
 
+    app.route('/api/board')
+    .get(board_ctrl.listTables);
+
+// to be implemented
+    app.route('/api/board/:category')
+    .get(board_ctrl.listTables);
+
     app.route('/api/board/create/table')
     .post(board_ctrl.createTable);
 
     app.route('/api/table/:table_id/createpost')
     .post(table_ctrl.createPost);
 
-    app.route('/api/table/:table_id/list')
+    app.route('/api/table/:table_id/posts')
     .get(table_ctrl.listPosts);
+
+    app.route('/api/table/:table_id/posts/:post_id/delete')
+    .put(table_ctrl.deletePost);
+    app.route('/api/table/:table_id/posts/:post_id/update')
+    .put(table_ctrl.updatePost);
 
     app.route('/api/table/:table_id/members')
     .get(table_ctrl.listMembers);

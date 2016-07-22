@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var tableSchema  = new Schema ({
-  title: {type:String, required:true},
+  title: {type:String, unique:true, required:true},
   description: {type:String, required:true},
   category: {type:String, required:true},
   created_at:{type:Date, default:Date.now},

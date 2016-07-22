@@ -9,7 +9,9 @@ var winston = require('winston');
 exports.listTables = function(req, res) {
   // define conditions by categories
   var conditions = {};
-
+  if(req.params.category){
+    conditions = {category:req.params.category};
+  }
   async.waterfall([
     function(callback) {
       Table.find(conditions)
@@ -85,23 +87,45 @@ exports.createTable = function(req, res) {
               message:err
             });
           }else{
+            table.member_list.push(creatorId);
             table.member_count++;
+            table.save();
             callback(null, table);
           }
         });
       }, function(table, callback){
-        Board.find({title:table.category}, function(err, board){
+        Board.findOne({title:table.category}, function(err, board){
           if(err){
             winston.warn(err);
             return res.json({
               success:false,
-              message:"Error occured in saving on board."
+              message:"Error occured in saving in board."
             });
           }else{
-            winston.info("Successfully created a table and saved in the board:"+board.title);
-            table.board_id = board._id;
-            board.table_id.push(table._id);
-            callback(null, table, board);
+            if(!board){
+              console.log("CREATING A NEW BOARD");
+              var newBoard = new Board({
+                title: table.category
+              });
+
+              Board.create(newBoard, function(err, board){
+                if(err) return res.json({success:false, message:err});
+                board.table_id.push(table._id);
+                board.table_count++;
+                board.save(function(err){
+                  if(err) return res.json({success:false, message:err});
+                  winston.info("Successfully created a table and saved in the new board:"+board.title);
+                  callback(null, table, board);
+                });
+              });
+            }else{
+              winston.info("Successfully created a table and saved in the board:"+board.title);
+              table.board_id = board._id;
+              board.table_id.push(table._id);
+              board.table_count++;
+              board.save();
+              callback(null, table, board);
+            }
           }
         });
       }

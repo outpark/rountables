@@ -3,15 +3,15 @@ var Schema = mongoose.Schema;
 
 var postSchema  = new Schema ({
   content: {type:String, required:true},
-  created_at:{type:Date, default:Date.now},
-  updated_at: Date,
+  author: {type:String, required:true},
   color:String,
   comment_num:{type:Number, default:0},
 	comment_id:[{type:Schema.ObjectId, ref:'Comment'}],
 	image_id:[{type:Schema.ObjectId, ref:'Image'}],
   table_id:{type:Schema.ObjectId, ref:'Table'},
-  video_url:String,
-  author: {type:String, required:true}
+  video_url:[{type:String}],
+  created_at:{type:Date, default:Date.now},
+  updated_at: Date
 });
 
 

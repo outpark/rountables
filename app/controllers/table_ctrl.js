@@ -5,11 +5,12 @@ var Post = require('../models/post');
 var Promise = require("bluebird");
 var winston = require('winston');
 
-exports.listPosts = function(res, req){
-  // if(res.body.)
-  var conditions = {};
+exports.listPosts = function(req, res){
+
+  var conditions = {table_id:req.params.table_id};
   var sort = {_id:-1};
 
+// below is not good. we shoud get the ids saved in tables and find post with those ids. this will look for all the posts.
   async.waterfall([
     function(callback){
       Post.find(conditions)
@@ -41,22 +42,19 @@ exports.listPosts = function(res, req){
   });
 };
 
-exports.listMembers = function(res, req){
-  var conditions = {};
-  if(req.params.table_id){
-    conditions = {_id:req.params.table_id};
-  }
+exports.listMembers = function(req, res){
 
+  var conditions = {_id:req.params.table_id};
   var sort = {_id:-1};
 
   async.waterfall([
     function(callback){
-      Table.find(conditions).exec(function(err, table) {
+      Table.findOne(conditions).exec(function(err, table) {
         if (err) {
-          winston.warn("Error occured in listing members:" + err);
+          winston.warn("Error occured in listing members: " + err);
           return res.json({success:false, message:err});
         }else{
-          winston.info("received table from db");
+          winston.info("received table from db: "+table.title);
           var users = table.member_list;
           callback(null, users);
         }
@@ -65,25 +63,33 @@ exports.listMembers = function(res, req){
     },
     function(users, callback){
       var members = [];
-      console.log(users);
       // not sure this is a good comparing case
-      if(users.length > 1){
-        for(let id of users){
-          console.log(id);
-          User.findById(id).exec(function(err, user){
+      if(users.length > 0){
+        async.each(users, function(userId, callback){
+          console.log("Processing each user: " + userId);
+          User.findById(userId).exec(function(err, user){
             if(err){
               winston.warn("Error occcured finding a user");
+              callback("Invalid userId: "+err);
             }else{
-              members.push(user.username);
+              console.log(user);
+              members.push(user);
+              callback();
             }
           });
-        }
-        callback(null, members);
+        }, function(err){
+          if(err){
+            winston.warn("Error occured in getting member list: "+err);
+            return callback(err, members);
+          }else{
+            winston.info("Succefully processed all members");
+            callback(null, members);
+          }
+        });
       }else{
         winston.warn("There's no user");
-        return res.json({success:false, message:err});
+        return callback("No existing users", members);
       }
-
     }
   ], function(err, users){
       if(err){
@@ -96,15 +102,14 @@ exports.listMembers = function(res, req){
         });
       }
   });
+};
+
+exports.showChat = function(req, res){
+
 
 };
 
-exports.showChat = function(res, req){
-
-
-};
-
-exports.createPost = function(res, req){
+exports.createPost = function(req, res){
   if(!req.body.content || !req.body.author || !req.body.color || !req.params.table_id){
     winston.warn("Invalid inputs in creating a post");
     return res.json({
@@ -114,7 +119,7 @@ exports.createPost = function(res, req){
   }else{
     // update with video or images
     var post = new Post({
-      title: req.body.content,
+      content: req.body.content,
       author: req.body.author,
       color: req.body.color,
       table_id: req.params.table_id
@@ -135,7 +140,7 @@ exports.createPost = function(res, req){
 };
 
 // below need to adjust to current settings
-exports.editPost = function(req, res) {
+exports.updatePost = function(req, res) {
   req.body.post.updatedAt = Date.now();
   Post.findByIdAndUpdate(req.params.post_id, req.body.post, function(err, post) {
     if(err) {
@@ -154,4 +159,12 @@ exports.deletePost = function(req, res) {
     return res.json({success:true, message:post._id+" has been deleted"});
   }
 });
+};
+
+exports.addMember = function(req, res) {
+
+};
+
+exports.removeMember = function(req, res) {
+
 };
