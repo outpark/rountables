@@ -1,25 +1,27 @@
-var express = require('express');
-var path = require('path');
-var Promise = require("bluebird");
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var favicon = require('serve-favicon');
-var http = require('http');
-var winston = require('winston');
-var assert = require('assert');
-var async = require('async');
-var config = require('./app/config.js');
-var morgan = require('morgan');
-var app = express();
-var io = require('socket.io')(http);
-var port = process.env.PORT || 5000;
-// app.use(favicon(__dirname + '/public/img/favicon.ico'));
+const express = require('express');
+const path = require('path');
+const Promise = require("bluebird");
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const favicon = require('serve-favicon');
+
+const winston = require('winston');
+const assert = require('assert');
+const async = require('async');
+const config = require('./app/config.js');
+const morgan = require('morgan');
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const port = process.env.PORT || 5000;
+// app.use(favicon(__dirname + '/client/img/favicon.ico'));
 
 // Connect to DB
-var mongoURL = config.database;
+const mongoURL = config.database;
 console.log(mongoURL);
+mongoose.Promise = global.Promise;
 mongoose.connect(mongoURL);
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.once("open", function(){
   winston.info("DB running");
 });
@@ -29,9 +31,8 @@ db.on("error", function(err){
 
 //socket io
 io.on('connection', function(socket){
-  winston.info('a user connected');
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
   });
 });
 
@@ -39,13 +40,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-app.use(express.static(path.join(__dirname +'/public')));
+app.use(express.static(path.join(__dirname +'/client')));
 
 
 // Setup routes
 require('./app/routes/api').initApp(app);
 
-app.listen(port, function () {
+http.listen(port, function () {
   winston.info('Server is running.');
   winston.info('Listening on port ' + port);
 });

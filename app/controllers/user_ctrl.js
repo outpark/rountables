@@ -1,7 +1,7 @@
-var User = require('../models/user');
-var jwt = require('jsonwebtoken');
-var bCrypt = require('bcrypt-nodejs');
-var config = require('../config.js');
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const bCrypt = require('bcrypt-nodejs');
+const config = require('../config.js');
 
 String.prototype.isAlphaNumeric = function() {
   var regExp = /^[A-Za-z0-9]+$/;

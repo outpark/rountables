@@ -1,9 +1,9 @@
-var async = require('async');
-var User = require('../models/user');
-var Table = require('../models/table');
-var Post = require('../models/post');
-var Promise = require("bluebird");
-var winston = require('winston');
+const async = require('async');
+const User = require('../models/user');
+const Table = require('../models/table');
+const Post = require('../models/post');
+const Promise = require("bluebird");
+const winston = require('winston');
 
 exports.listPosts = function(req, res){
 
@@ -118,24 +118,45 @@ exports.createPost = function(req, res){
     });
   }else{
     // update with video or images
-    var post = new Post({
+    let post = new Post({
       content: req.body.content,
       author: req.body.author,
       color: req.body.color,
       table_id: req.params.table_id
     });
-    Post.create(post, function(err, post){
-      if(err){
-        winston.warn("Error occured:" + err);
-        return res.json({success:false, message:err});
-      }else{
-        winston.info("Successfully saved a post:"+post._id);
+
+    async.waterfall([
+      function(callback) {
+        Post.create(post, function(err, post){
+          if(err){
+            winston.warn("Error occured:" + err);
+            return res.json({success:false, message:err});
+          }else{
+            winston.info("Successfully saved a post:"+post._id);
+            callback(null, post);
+          }
+        });
+      }, function(post, callback){
+        Table.findOne({_id:req.params.table_id}, function(err, table){
+          if(err) return callback(err, table);
+          else {
+            table.post_num++;
+            table.post_id.push(post._id);
+            table.save();
+            callback(err, post);
+          }
+        });
+      }
+    ],function(err, post){
+      if(err) return res.json({success: false, message:err});
+      else{
         return res.json({
-          success:true,
-          data:post
+          success: true,
+          data: post
         });
       }
     });
+
   }
 };
 

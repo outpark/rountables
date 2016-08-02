@@ -3,6 +3,7 @@ var router = express.Router();
 var core_ctrl = require('../controllers/core_ctrl'),
   user_ctrl = require('../controllers/user_ctrl'),
   board_ctrl = require('../controllers/board_ctrl'),
+  search_ctrl = require('../controllers/search_ctrl'),
   table_ctrl = require('../controllers/table_ctrl');
 
 exports.initApp = function(app) {
@@ -24,6 +25,15 @@ exports.initApp = function(app) {
 
     app.route('/api/board/create/table')
     .post(board_ctrl.createTable);
+
+    app.route('/api/search')
+    .get(search_ctrl.listHashtags);
+
+    app.route('/api/search/hashtags')
+    .post(search_ctrl.hashtagSearch);
+
+    app.route('/api/search/detail')
+    .post(search_ctrl.detailSearch);
 
     app.route('/api/table/:table_id/createpost')
     .post(table_ctrl.createPost);

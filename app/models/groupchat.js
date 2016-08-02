@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var ChatSchema = mongoose.Schema({
+const groupChatSchema = mongoose.Schema({
   created_at:{type:Date, default:Date.now},
   content: String,
   table_id: [{type:Schema.ObjectId, ref:'Table'}],
@@ -9,4 +9,4 @@ var ChatSchema = mongoose.Schema({
 });
 
 // create a model from the chat schema
-var Chat = mongoose.model('Chat', ChatSchema);
+const GroupChat = mongoose.model('GroupChat', groupChatSchema);
