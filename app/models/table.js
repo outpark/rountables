@@ -21,6 +21,10 @@ const tableSchema  = new Schema ({
     _id:{type:Schema.ObjectId},
     username:{type:String}
   }],
+  join_request:[{
+    _id:{type:Schema.ObjectId},
+    username:{type:String}
+  }],
 	post_id:[{type:Schema.ObjectId, ref:'Post'}],
 	image_id:[{type:Schema.ObjectId, ref:'Image'}],
   private: {type:Boolean, required:true},

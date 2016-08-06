@@ -70,7 +70,7 @@ exports.createTable = function(req, res) {
         User.findOne({username:req.body.creator}, function(err, user){
           if(err){
             winston.warn("Failed find a user with creator's name");
-            callback(null, undefined);
+            callback("FAILED TO FIND CREATOR");
           }else{
             callback(null, user);
           }
@@ -186,7 +186,6 @@ exports.createTable = function(req, res) {
     });
   }
 };
-// TODO: possible bug here. It looks if hashtags fail to save in tables (sometimes) when first created.
 function hashtagHandler(hashtags, myTable) {
   winston.info("hashtags in process..."+myTable.title);
   async.each(hashtags, function(tag, callback){

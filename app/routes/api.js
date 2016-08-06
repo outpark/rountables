@@ -38,11 +38,21 @@ exports.initApp = function(app) {
     app.route('/api/table/:table_id/createpost')
     .post(table_ctrl.createPost);
 
+    app.route('/api/table/:table_id/join')
+    .put(table_ctrl.addMember); // this name isn't great
+
+    app.route('/api/table/:table_id/remove')
+    .put(table_ctrl.removeMember);
+
+    app.route('/api/table/:table_id/approve')
+    .put(table_ctrl.approve);
+
     app.route('/api/table/:table_id/posts')
     .get(table_ctrl.listPosts);
 
     app.route('/api/table/:table_id/posts/:post_id/delete')
     .put(table_ctrl.deletePost);
+
     app.route('/api/table/:table_id/posts/:post_id/update')
     .put(table_ctrl.updatePost);
 

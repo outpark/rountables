@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const Promise = require("bluebird");
+// const Promise = require("bluebird");
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');

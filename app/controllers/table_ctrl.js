@@ -5,8 +5,10 @@ const Post = require('../models/post');
 const Promise = require("bluebird");
 const winston = require('winston');
 
-exports.listPosts = function(req, res){
 
+// TODO: Name functions that are used every where and reuse duplicate ones
+// Think of a good way to paginate
+exports.listPosts = function(req, res){
   var conditions = {table_id:req.params.table_id};
   var sort = {_id:-1};
 
@@ -182,10 +184,211 @@ exports.deletePost = function(req, res) {
 });
 };
 
-exports.addMember = function(req, res) {
 
+//TODO: for both addMember and approve, prevent duplicate requests
+exports.addMember = function(req, res) {
+  // case1: table is private
+  // case2: table is public
+  // case3: admin invites an user
+  if(!req.params.table_id || !req.body.user_id){
+    return res.json({
+      success:false,
+      message:"Invalid parameters"
+    });
+  }
+  async.waterfall([
+    //find table
+    function(callback){
+      Table.findOne({_id:req.params.table_id})
+      .exec(function(err, table){
+        if(err){
+          return res.json({
+            success: false,
+            message: "Failed to retrieve table"
+          });
+        }else{
+          callback(null, table);
+        }
+      });
+    }, function(table, callback){
+      User.findOne({_id:req.body.user_id})
+      .exec(function(err, user){
+        if(err){
+          return res.json({
+            success: false,
+            message: "Failed to retrieve user"
+          });
+        }else{
+          callback(null, table, user);
+        }
+      });
+    }, function(table, user, callback){
+      if(table.private === false){
+        table.member_list.push({
+          _id:user._id,
+          username:user.username
+        });
+        table.member_count++;
+        table.markModified('member_list');
+        User.update({_id:user._id},{$push:{table_id:table._id}}, function(err, user){
+          if(err){
+            winston.info("Failed to update user with table id");
+            callback("Failed to update user with table id");
+          }else{
+            callback(null, table, user);
+          }
+        });
+      }else{
+        table.join_request.push({
+          _id:user._id,
+          username:user.username
+        });
+        table.markModified('join_request');
+        callback(null, table, user);
+      }
+    }
+  ], function(err, table, user) {
+    if(err){
+      return res.json({
+        success:false,
+        message:"Failed to process join request " + err
+      });
+    }else{
+      table.save(function(err){
+        if(err){
+          return res.json({
+            success:false,
+            message:"Failed to save table" + err
+          });
+        }else{
+          return res.json({
+            success:true,
+            message:"Successfully processed join request",
+            user:user,
+            table:table
+          });
+        }
+      });
+    }
+  });
 };
 
-exports.removeMember = function(req, res) {
+// to approve user join request
+exports.approve = function(req, res){
+  if(!req.params.table_id || !req.body.user_id){
+    return res.json({
+      success:false,
+      message:"Invalid parameters"
+    });
+  }else{
+    async.waterfall([
+      function(callback){
+        User.findOne({_id:req.body.user_id})
+        .exec(function(err, user){
+          if(err){
+            callback("Failed to retrieve user");
+          }else{
+            if(user.table_id.includes(req.params.table_id)){
+              callback("User already added to that table");
+            }else{
+              user.table_id.push(req.params.table_id);
+              callback(null, user);
+            }
 
+          }
+        });
+      }, function(user, callback){
+
+        Table.findByIdAndUpdate(req.params.table_id,{ $pull: { "join_request": { _id: user._id}}},{new: true},
+        function(err, myTable){
+          if(err){
+            return res.json({
+              success:false,
+              message:"Failed to retrieve table with "+ req.params.table_id
+            });
+          }else{
+            callback(null, user, myTable);
+          }
+        });
+      }, function(user, table, callback){
+        table.member_list.push({
+          _id:user._id,
+          username:user.username
+        });
+        table.markModified('member_list');
+        table.member_count++;
+        table.save(function(err){
+          if (err){
+            return callback(err);
+          }else{
+            callback(null, user, table);
+          }
+        });
+      }
+    ], function(err, user, table){
+      if(err){
+        winston.warn(err);
+        return res.json({
+          success:false,
+          message:err
+        });
+      }else{
+        winston.info("A user has been approved to join table: "+table._id);
+        return res.json({
+          success:true,
+          message:"Successfully approved " +user.username+ " to join the table",
+          user:user,
+          table:table
+        });
+      }
+    });
+  }
+};
+// TODO: test this
+exports.removeMember = function(req, res) {
+  if(!req.body.user_id || !req.params.table_id){
+    return res.json({
+      success:false,
+      message:"user id must exist"
+    });
+  }
+  async.waterfall([
+    function(callback){
+      User.findByIdAndUpdate(req.body.user_id,{$pull{ "table_id": req.params.table_id}},{new: true},
+    function(err, user){
+      if(err){
+        return callback("Failed to remove table_id from user");
+      }else{
+        winston.info("Removed table_id from user");
+        callback(null, user);
+      }
+    });
+    }, function(callback){
+      Table.findByIdAndUpdate(req.parms.table_id,{$pull{ "member_list": {_id:req.body.user_id}}},{new: true},
+        function(err, table){
+          if(err){
+            return callback("Failed to remove table_id from user");
+          }else{
+            winston.info("Removed member_list from table");
+            callback(null, user, table);
+          }
+      });
+    }
+  ], function(err, user, table){
+      if(err){
+        winston.info("Failed to process table and user");
+        return res.json({
+          success:false,
+          message: "Error occured while updating table and user"
+        });
+      }else{
+        winston.info("Table and user processign completed");
+        return res.json({
+          success: true,
+          message: "Successfully updated both table and user data"
+          user: user,
+          table: table
+        });
+      }
+  });
 };
