@@ -60,6 +60,6 @@ exports.initApp = function(app) {
     .get(table_ctrl.listMembers);
 
 
-    app.route('*')
-    .get(core_ctrl.index);
+    // app.route('*')
+    // .get(core_ctrl.index);
 };

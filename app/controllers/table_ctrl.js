@@ -354,7 +354,7 @@ exports.removeMember = function(req, res) {
   }
   async.waterfall([
     function(callback){
-      User.findByIdAndUpdate(req.body.user_id,{$pull{ "table_id": req.params.table_id}},{new: true},
+      User.findByIdAndUpdate(req.body.user_id,{$pull: {"table_id": req.params.table_id}},{new: true},
     function(err, user){
       if(err){
         return callback("Failed to remove table_id from user");
@@ -363,8 +363,8 @@ exports.removeMember = function(req, res) {
         callback(null, user);
       }
     });
-    }, function(callback){
-      Table.findByIdAndUpdate(req.parms.table_id,{$pull{ "member_list": {_id:req.body.user_id}}},{new: true},
+  }, function(user, callback){
+      Table.findByIdAndUpdate(req.parms.table_id,{$pull:{ "member_list": {_id:req.body.user_id}}},{new: true},
         function(err, table){
           if(err){
             return callback("Failed to remove table_id from user");
@@ -385,7 +385,7 @@ exports.removeMember = function(req, res) {
         winston.info("Table and user processign completed");
         return res.json({
           success: true,
-          message: "Successfully updated both table and user data"
+          message: "Successfully updated both table and user data",
           user: user,
           table: table
         });
