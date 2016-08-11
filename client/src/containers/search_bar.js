@@ -9,27 +9,34 @@ import { listTables } from '../actions/list_tables';
 export default class SearchBar extends Component {
   constructor(props){
     super(props);
-    this.state = { hashtag: ''}
+    this.state = { hashtag: []}
 
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.onSearchBarClick = this.onSearchBarClick.bind(this);
+    this.onSpacebar = this.onSpacebar.bind(this);
   }
 
   onInputChange(event){
     this.setState({ hashtag: event.target.value });
   }
 
-  onSearchBarClick(event){
-    this.props.listTables();
+  onSpacebar(event){
+    if(event.which === 32){
+      let tags = event.target.value.split(/[ ,]+/);
+      console.log(tags.type);
+      this.setState({ hashtag: tags });
+      console.log(this.state);
+      this.props.fetchTables(tags);
+    }
   }
 
   onFormSubmit(event){
      event.preventDefault();
      // We need to go and fetch weather data
      console.log("ON SUBMIT: "+this.state.hashtag)
-     this.props.fetchTables(this.state.hashtag);
-     this.setState({ hashtag: '' });
+     let tags = this.state.hashtag.split(/[ ,]+/);
+     this.props.fetchTables(tags);
+     this.setState({ hashtag: [] });
      // fetch data and reset hashtag
   }
 
@@ -41,7 +48,7 @@ export default class SearchBar extends Component {
           className="form-control"
           value={this.state.hashtag}
           onChange={this.onInputChange}
-          onClick={this.onSearchBarClick}
+          onKeyPress={this.onSpacebar}
         />
         <span className="input-group-btn">
           <button type="submit" className="btn btn-secondary">
