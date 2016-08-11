@@ -30,6 +30,8 @@ exports.listHashtags = function(req, res) {
 };
 
 exports.hashtagSearch = function(req, res) {
+  console.log(req.body);
+  console.log(req.body.hashtags);
   if(req.body.hashtags.length < 1){
     return res.json({
       success:false,
