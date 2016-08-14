@@ -56,8 +56,13 @@ exports.hashtagSearch = function(req, res) {
         Hashtag.findOne(conditions, function(err, hashtag) {
           if(err){res.json({success:false, message:err});}
           else {
-            let tableList = hashtag.table_id;
-            callback(null, tableList);
+            if (hashtag){
+              let tableList = hashtag.table_id;
+              callback(null, tableList);
+            }else{
+              callback("Such hashtag doesn't exist");
+            }
+
           }
         });
       }, function(list, callback){

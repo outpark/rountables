@@ -3,20 +3,24 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxPromise from 'redux-promise';
-import { Router, Route, Link, browserHistory } from 'react-router'
+import { Router, browserHistory } from 'react-router';
 
-import App from './components/app';
-import NoMatch from './components/404'
+// import App from './components/app';
+// import NoMatch from './components/404';
+
+import routes from './routes';
 import reducers from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
-    <Router history={browserHistory}>
-      <Route path="/" component={App}>
-        <Route path="*" component={NoMatch}/>
-      </Route>
-    </Router>
+    <Router history={browserHistory} routes={routes} />
   </Provider>
   , document.querySelector('.container'));
+
+
+  // <Route path="/" component={App}>
+  //   <Route path="*" component={NoMatch} />
+  // </Route>
+// </Router>

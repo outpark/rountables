@@ -8,9 +8,13 @@ export default class App extends Component {
     return (
       <div>
         <Favicon url={"../img/RT_Favicon.png"}/>
-        <SearchBar />
-        <TableList />
+        {this.props.children}
       </div>
     );
   }
 }
+
+//
+// <Favicon url={"../img/RT_Favicon.png"}/>
+// <SearchBar />
+// <TableList />

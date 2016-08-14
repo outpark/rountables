@@ -3,7 +3,7 @@ import React from 'react';
 export default (props) => {
   return (
     <div>
-      "The page you are looking for doesn't exist"
+      <h3>"The page you are looking for doesn't exist"</h3>
     </div>
   );
 }

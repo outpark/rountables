@@ -6,16 +6,6 @@ export function fetchTables(hashtag) {
   const URL = `${ROOT_URL}/search/hashtags`;
   // const request = axios.get(url);
 
-  // const request = axios.post(url, {
-  //   hashtags: hashtag
-  // })
-  // .then(function (response) {
-  //   console.log(response);
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  // });
-
   const request = axios({
     method: 'post',
     url: URL,
@@ -23,8 +13,6 @@ export function fetchTables(hashtag) {
       hashtags: hashtag
     }
   });
-
-  console.log('Request:', request);
 
   return {
     type: FETCH_TABLES,
