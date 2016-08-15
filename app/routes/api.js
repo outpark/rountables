@@ -4,11 +4,16 @@ var core_ctrl = require('../controllers/core_ctrl'),
   user_ctrl = require('../controllers/user_ctrl'),
   board_ctrl = require('../controllers/board_ctrl'),
   search_ctrl = require('../controllers/search_ctrl'),
-  table_ctrl = require('../controllers/table_ctrl');
+  table_ctrl = require('../controllers/table_ctrl'),
+  colors = require('colors');
 
 exports.initApp = function(app) {
   // router.post('/api/users/signin', user_ctrl.signin);
   // router.post('/api/users/signup', user_ctrl.signup);
+    app.use(function(req,res,next){
+  		console.log(colors.yellow(Date.now()));
+  		next();
+  	});
 
     app.route('/api/users/signin')
     .post(user_ctrl.signin);
@@ -58,6 +63,16 @@ exports.initApp = function(app) {
 
     app.route('/api/table/:table_id/members')
     .get(table_ctrl.listMembers);
+
+    //TODO:  implement file uploads
+    // app.route('/api/upload/profile')
+    // .post();
+    //
+    // app.route('/api/upload/photos')
+    // .post();
+    //
+    // app.route('/api/upload/docs');
+    // .post();
 
 
     // app.route('*')

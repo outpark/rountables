@@ -30,6 +30,8 @@ exports.listHashtags = function(req, res) {
 };
 
 exports.hashtagSearch = function(req, res) {
+  console.log(req.body);
+  console.log(req.body.hashtags);
   if(req.body.hashtags.length < 1){
     return res.json({
       success:false,
@@ -54,8 +56,13 @@ exports.hashtagSearch = function(req, res) {
         Hashtag.findOne(conditions, function(err, hashtag) {
           if(err){res.json({success:false, message:err});}
           else {
-            let tableList = hashtag.table_id;
-            callback(null, tableList);
+            if (hashtag){
+              let tableList = hashtag.table_id;
+              callback(null, tableList);
+            }else{
+              callback("Such hashtag doesn't exist");
+            }
+
           }
         });
       }, function(list, callback){

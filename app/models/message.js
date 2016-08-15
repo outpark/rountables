@@ -3,12 +3,20 @@ const Schema = mongoose.Schema;
 
 // TODO: implement this
 const messageSchema = new Schema({
-  username: {type:String, unique:true, required:true},
-  password: {type:String, required:true},
-  email: {type:String, unique:true, required:true},
+  groupchatId: {
+    type: Schema.Types.ObjectId,
+    required: true
+  },
+  body: {
+    type: String,
+    required: true
+  },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   color: String,
-  created_at:{type:Date, default:Date.now},
-  token: {type:String}
+  created_at {type:Date, default:Date.now},
 });
 
 

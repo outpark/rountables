@@ -2,6 +2,68 @@
   box-sizing: border-box;
 }
 
+body {
+
+}
+
+.input-group {
+  margin: 20px 0px;
+}
+
+td, th {
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+td:first-of-type {
+  height: 200px;
+  width: 250px;
+
+}
+
+.container{
+
+}
+
+.home-right {
+  float: right;
+  width: 320px;
+  height: 80px;
+  background-color: rgba(0,0,0,0.3);
+}
+
+.signin {
+  width: 120px;
+  height: 40px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border-style: solid;
+  border-color: #ffffff;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+.signin:hover{
+  background-color: none;
+}
+
+.signup {
+  width: 120px;
+  height: 40px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border-style: solid;
+  border-color: #ffffff;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+.signup:hover {
+  background-color: none;
+}
+
+
 .head-container{
   height: 600px;
   border-style: solid;
@@ -89,84 +151,3 @@ h3 {
   font-size: 3em;
   text-align: center;
 }
-
-/*
-.table-container{
-  padding-left: 5%;
-  padding-right: 5%;
-  border-style: dashed;
-  border-color: black;
-}
-
-.row {
-  margin: 0 auto;
-  padding-top: 50px;
-}
-
-.table-1 {
-  height: 380px;
-  width: 30%;
-  border-style: solid;
-  border-color: #000000;
-  margin-right: 2.5%
-}
-.table-2 {
-  width: 30%;
-  height: 380px;
-  border-style: solid;
-  border-color: #000000;
-  margin-right: 2.5%;
-
-}
-.table-3 {
-  width: 30%;
-  height: 380px;
-  border-style: solid;
-  border-color: #000000;
-
-}
-
-.row2 {
-  margin: 0 auto;
-  padding-top: 50px;
-}*/
-
-/*li {
-  width: 380px;
-  min-height: 380px;
-  border: 1px solid #000;
-  display: inline-block;
-  margin: 50px;
-}
-
-ul {
-  padding-left: 100px;
-  padding-right: 100px;
-}*/
-
-/*
-.table-4 {
-  position: absolute;
-  height: 380px;
-  width: 30%;
-  border-style: solid;
-  border-color: #000000;
-  margin-right: 5%
-}
-.table-5 {
-  position: absolute;
-  width: 30%;
-  height: 380px;
-  border-style: solid;
-  border-color: #000000;
-  margin-right: 5%;
-
-}
-.table-6 {
-  position: absolute;
-  width: 30%;
-  height: 380px;
-  border-style: solid;
-  border-color: #000000;
-
-} */
