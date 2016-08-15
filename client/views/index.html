@@ -1,0 +1,172 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <title>Rountables</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="../style/style.css"> -->
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-router/umd/ReactRouter.min.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- Media query for narrow browser width -->
+  	<link rel="stylesheet" media="only screen and (max-width: 480px)" href="../style/mobile.css">
+
+  	<!-- Media query for medium browser width -->
+  	<link rel="stylesheet" media="only screen and (min-width: 481px) and (max-width: 960px)" href="../style/tablet.css">
+
+  	<!-- Media query for full browser width -->
+  	<link rel="stylesheet" media="only screen and (min-width: 961px)" href="../style/style.css">
+
+    <link rel="icon" href="../style/images/RT_Favicon.png">
+
+
+
+
+  </head>
+
+  <body>
+    <div class="head-container">
+      <div class="nav">
+
+      <a href="index.html"><img class="logo" src="../style/images/RT_Favicon.png"/></a>
+
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary btn-lg new-table-button" data-toggle="modal" data-target="#myModal">
+        Start a new table
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="new-table-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Large modal -->
+      <button type="button" class="btn btn-primary log-in" data-toggle="modal" data-target="#login">Log In</button>
+
+      <div id="login" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            This is supposed to show up
+          </div>
+        </div>
+      </div>
+
+      <!-- Small modal -->
+      <button type="button" class="btn btn-primary sign-up" data-toggle="modal" data-target="#sign-up-modal">Sign Up</button>
+
+      <div id="sign-up-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            ...
+          </div>
+        </div>
+      </div>
+      </div>
+
+
+      <div class="rountables">
+        <h1> ROUNTABLES </h1>
+      </div>
+    <div class="search-container">
+      <div class="input-group input-group-lg">
+        <input type="text" class="form-control" placeholder="#NYUStern" aria-describedby="basic-addon2">
+        <span class="input-group-addon" id="basic-addon2">Search</span>
+      </div>
+    </div>
+  </div>
+
+  <h3><a href="tables.html">Tables</a></h3>
+
+<ul class="table-container">
+  <li class="table">NYU Stern</li>
+  <li class="table">Bobst Study Squad</li>
+  <li class="table">Uber</li>
+  <li class="table">4</li>
+  <li class="table">5</li>
+  <li class="table">6</li>
+</ul>
+
+
+<!--
+  <ul>
+    <li style="width: 380px">
+      <h4>This is awesome</h4>
+    </li>
+
+    <li style="width: 380px">
+      <h4>This is awesome</h4>
+    </li>
+
+    <li style="width: 380px">
+      <h4>This is awesome</h4>
+    </li>
+
+    <li>
+      <h4>This is awesome</h4>
+    </li>
+
+    <li>
+      <h4>This is awesome</h4>
+    </li>
+
+    <li>
+      <h4>This is awesome</h4>
+    </li>
+  </ul>
+
+   <div class="table-container">
+    <div class="row">
+      <div class="col-sm-4 table-1">
+        table 1
+      </div>
+      <div class='col-sm-4 table-2'>
+        table 2
+      </div>
+      <div class='col-sm-4 table-3'>
+        table 3
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="col-sm-4 table-4">
+        table 4
+      </div>
+      <div class='col-sm-4 table-5'>
+        table 5
+      </div>
+      <div class='col-sm-4 table-6'>
+        table 6
+      </div>
+    </div>
+  </div> -->
+
+
+
+
+  </body>
+    <script src="/client/bundle.js"></script>
+    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+    <script src="https://use.fontawesome.com/8cbadd1c95.js"></script>
+</html>
