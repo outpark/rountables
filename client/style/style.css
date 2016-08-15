@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
 
 }
@@ -20,6 +24,7 @@ td:first-of-type {
 .container{
 
 }
+
 .home-right {
   float: right;
   width: 320px;
@@ -56,4 +61,93 @@ td:first-of-type {
 }
 .signup:hover {
   background-color: none;
+}
+
+
+.head-container{
+  height: 600px;
+  border-style: solid;
+  border-color: black;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.nav {
+  margin-top: 2%;
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+.new-table-button {
+  background-color: orange;
+  margin-left: 30px;
+}
+
+.log-in {
+  width: 120px;
+  position:
+  left: auto; /* <-- Reset the default left value */
+  right: 3%;
+  float: right !important;
+  background-color: orange;
+}
+
+.sign-up {
+  width: 120px;
+ left: auto; /* <-- Reset the default left value */
+ right: 11%;
+ float: right !important;
+ margin-right: 20px;
+ background-color: orange;
+}
+
+.btn-toolbar {
+  text-align: left;
+}
+
+.rountables{
+  margin-top: 200px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 5em;
+}
+
+h3 {
+  font-size: 3em;
+  text-align: center;
+}
+
+.search-container {
+  padding-left: 15em;
+  padding-right: 15em;
+}
+
+.table-container {
+  padding: 5%;
+  list-style: none;
+
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.table {
+  background: tomato;
+  width: 380px;
+  height: 380px;
+  margin-top: 10px;
+
+  line-height: 150px;
+  color: white;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: center;
 }
