@@ -12,6 +12,7 @@ const userSchema = new Schema({
   address: String,
   table_id: [{type:Schema.ObjectId, ref:'Table'}],
   affiliation: String,
+  profile: String,
   created_at:{type:Date, default:Date.now},
   token: {type:String}
 });

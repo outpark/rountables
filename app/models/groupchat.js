@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const groupChatSchema = mongoose.Schema({
-  created_at:{type:Date, default:Date.now},
-  content: String,
+const grouphhatSchema = mongoose.Schema({
   table_id: [{type:Schema.ObjectId, ref:'Table'}],
-  user_id:[{type:Schema.ObjectId, ref:'User'}]
+  participants: [{ type: Schema.Types.ObjectId, ref: 'User'}],
+  created_at:{type:Date, default:Date.now}
 });
 
 // create a model from the chat schema
-const GroupChat = mongoose.model('GroupChat', groupChatSchema);
+const Groupchat = mongoose.model('Groupchat', groupchatSchema);
+module.exports = Groupchat;

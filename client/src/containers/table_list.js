@@ -13,7 +13,6 @@ class TableList extends Component {
 
   }
 
-
   renderTable(tableData){
     if(!tableData){
       console.log("NO DATA");

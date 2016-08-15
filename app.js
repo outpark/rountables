@@ -14,11 +14,12 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 5000;
+const socketEvents = require('./socket_events');
 // app.use(favicon(__dirname + '/client/img/favicon.ico'));
 
 // Connect to DB
 const mongoURL = config.database;
-console.log(mongoURL);
+// console.log(mongoURL);
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoURL);
 const db = mongoose.connection;
@@ -28,25 +29,24 @@ db.once("open", function(){
 db.on("error", function(err){
   winston.warn("DB ERROR : ", err);
 });
-
 //socket io
-io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-  });
-});
+socketEvents(io);
 
+
+
+app.use(express.static(path.join(__dirname +'/client')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
-    next();
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
 });
 
-app.use(express.static(path.join(__dirname +'/client')));
+
 
 
 // Setup routes
