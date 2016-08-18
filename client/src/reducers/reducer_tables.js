@@ -1,4 +1,4 @@
-import { FETCH_TABLES } from '../actions/search';
+import { FETCH_TABLES, FETCH_DETAIL_TABLES } from '../actions/search';
 import { LIST_TABLES } from '../actions/list_tables'
 
 export default function (state = [], action) {
@@ -11,6 +11,10 @@ export default function (state = [], action) {
         tables: action.payload.data.data
       });
     case LIST_TABLES:
+      return Object.assign({}, state, {
+        tables: action.payload.data.data
+      });
+    case FETCH_DETAIL_TABLES:
       return Object.assign({}, state, {
         tables: action.payload.data.data
       });

@@ -9,8 +9,6 @@ export function listTables() {
   const url = `${ROOT_URL}/board`;
   const request = axios.get(url);
 
-  console.log('Request:', request);
-
   return {
     type: LIST_TABLES,
     payload: request

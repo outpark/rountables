@@ -9,10 +9,16 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <Logo />
-        <TableCreate />
-        <AuthModals />
-        <SearchBar />
+        <div className="head-container">
+
+          <Logo />
+          <TableCreate />
+          <AuthModals />
+          <div className="rountables">
+            <h2> ROUNTABLES </h2>
+          </div>
+          <SearchBar />
+        </div>
         <TableList />
       </div>
     );

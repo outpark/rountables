@@ -6,6 +6,7 @@ const winston = require('winston');
 const Hashtag = require('../models/hashtag');
 const Search = require('../models/search');
 const ObjectId = require('mongodb').ObjectID;
+var pry = require('pryjs')
 
 // TODO: implement this
 
@@ -136,7 +137,7 @@ exports.hashtagSearch = function(req, res) {
 exports.detailSearch = function(req, res) {
   // at this point, can I use the tables from hashtag search?
   // but this directs to a new page.
-  console.log("Details search in progress");
+  console.log("Details search in progress: " + req.body.title);
   let data = {
     tags: req.body.hashtags,
     title: req.body.title
@@ -154,12 +155,17 @@ exports.detailSearch = function(req, res) {
        message:"More than one letter"
     });
   }else{
-    if(req.body.hashtags){
-      conditions = {"hashtags": {$all: req.body.hashtags},title:{$regex : req.body.title}};
+    if(req.body.hashtags && req.body.hashtags.length > 0){
+      console.log(req.body.hashtags );
+      conditions = {$and: [{"hashtags": {$all: req.body.hashtags}}, {$text: {$search: req.body.title}}]};
     }else { // w/o tags
-      conditions = {title:{$regex : req.body.title}};
+      // TODO: ADD SCORE
+      console.log("JERE");
+      conditions = {$text: {$search: req.body.title}};
     }
+    //  .sort({score:{$meta:"textScore"}})
       Table.find(conditions)
+      .limit(size)
       .exec(function(err, tables){
         if(err){
           console.log(err);
