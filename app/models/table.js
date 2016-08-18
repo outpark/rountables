@@ -32,6 +32,7 @@ const tableSchema  = new Schema ({
   board_id: [{type:Schema.ObjectId, ref:'Board'}]
 });
 
+tableSchema.index({title: 'text', description: 'text'});
 
 const Table = mongoose.model('Table', tableSchema);
 module.exports = Table;

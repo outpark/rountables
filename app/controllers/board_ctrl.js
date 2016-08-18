@@ -72,7 +72,12 @@ exports.createTable = function(req, res) {
             winston.warn("Failed find a user with creator's name");
             callback("FAILED TO FIND CREATOR");
           }else{
-            callback(null, user);
+            if(user){
+              callback(null, user);
+            }else{
+              callback("Such user doesn't exist!");
+            }
+
           }
         });
       }, function(creator, callback){
