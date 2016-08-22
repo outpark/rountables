@@ -3,11 +3,11 @@ const path = require('path');
 // const Promise = require("bluebird");
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const favicon = require('serve-favicon');
-
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const MongoStore = require('connect-mongo')(session);
 const winston = require('winston');
 const assert = require('assert');
-const async = require('async');
 const config = require('./app/config.js');
 const morgan = require('morgan');
 const app = express();
@@ -15,11 +15,9 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 5000;
 const socketEvents = require('./socket_events');
-// app.use(favicon(__dirname + '/client/img/favicon.ico'));
 
 // Connect to DB
 const mongoURL = config.database;
-// console.log(mongoURL);
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoURL);
 const db = mongoose.connection;
@@ -32,9 +30,14 @@ db.on("error", function(err){
 //socket io
 socketEvents(io);
 
-
-
 app.use(express.static(path.join(__dirname +'/client')));
+app.use(cookieParser());
+app.use(session({
+  secret: config.secret,
+  saveUninitialized: true,
+  resave: true,
+  store: new MongoStore({ mongooseConnection: db })
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
@@ -45,8 +48,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
-
-
 
 
 // Setup routes

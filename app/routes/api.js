@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const expressJwt = require('express-jwt');
 var core_ctrl = require('../controllers/core_ctrl'),
   user_ctrl = require('../controllers/user_ctrl'),
   board_ctrl = require('../controllers/board_ctrl'),
@@ -20,6 +20,9 @@ exports.initApp = function(app) {
 
     app.route('/api/users/signup')
     .post(user_ctrl.signup);
+
+    app.route('/api/users/me/:token')
+    .get(user_ctrl.me);
 
     app.route('/api/board')
     .get(board_ctrl.listTables);

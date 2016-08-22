@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { reduxForm } from 'redux-form';
+// import { userLogIn } from '../actions/auth';
 import { Button, Modal, Popover, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+// import { meFromTokenSuccess, meFromTokenFailure } from '../actions/auth';
 
 export default class TableCreate extends Component {
 

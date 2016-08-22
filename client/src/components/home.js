@@ -3,9 +3,13 @@ import SearchBar from '../containers/search_bar';
 import TableList from '../containers/table_list';
 import AuthModals from '../containers/auth_modals';
 import TableCreate from '../containers/table_create';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import Logo from './logo';
 
 export default class Home extends Component {
+  componentDidMount(){
+    NotificationManager.info('Welcome!');
+  }
   render() {
     return (
       <div>
