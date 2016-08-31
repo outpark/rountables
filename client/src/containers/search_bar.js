@@ -30,8 +30,6 @@ class SearchBar extends Component {
   }
 
   componentWillMount() {
-    console.log("HELLO");
-    console.log(this.props.location)
     if(!this.props.location){
       return;
     }

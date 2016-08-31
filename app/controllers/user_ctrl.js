@@ -2,6 +2,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bCrypt = require('bcrypt-nodejs');
 const config = require('../config.js');
+const pry = require('pryjs');
 
 String.prototype.isAlphaNumeric = function() {
   var regExp = /^[A-Za-z0-9]+$/;
@@ -9,12 +10,12 @@ String.prototype.isAlphaNumeric = function() {
 };
 
 exports.signin = function(req, res) {
-  if(!req.body.password || !req.body.username) {
+  if(!req.body.password || !req.body.email || !req.body.password) {
     return res.json({
 			success:false,
 			message:"invalid parameters"});
   }else{
-    User.findOne({username:req.body.username}, function(err, user) {
+    User.findOne({email:req.body.email}, function(err, user) {
         if(err){
 					console.log("error");
             return res.json({
@@ -32,6 +33,7 @@ exports.signin = function(req, res) {
 								return res.json({
 										 success: true,
 										 username: user.username,
+                     email: user.email,
 										 token: user.token
 								 });
 							}
@@ -56,6 +58,7 @@ exports.signup = function(req, res) {
 			message:"invalid parameter"
 		});
 	}else{
+
     User.findOne({username: req.body.username}, function(err, user) {
       if (err) {
         return res.json({
@@ -83,7 +86,7 @@ exports.signup = function(req, res) {
       						message:"error!"
       					});
       				}else {
-              user.token = jwt.sign(config.secret, "tokengenerated");
+              user.token = jwt.sign(user, config.jwtSecret);
               user.save(function(err, user1) {
                 if(err){
         					console.log(err);
@@ -110,23 +113,41 @@ exports.signup = function(req, res) {
 };
 
 exports.me = function(req, res) {
-  User.findOne({token: req.token}, function(err, user) {
-        if (err) {
-          return res.json({
-                type: false,
-                data: "Error occured: " + err
-            });
-        } else {
-          return res.json({
-                type: true,
-                data:{
-                    username: user.username,
-                    email: user.email,
-                    token: user.token
-                }
-            });
-        }
+
+  if(!req.params.token){
+    return res.status(401).json({
+      success:false,
+      message: 'Must pass token'
     });
+  }
+  jwt.verify(req.params.token, config.jwtSecret, function(err, t_user) {
+    if (err) throw err;
+
+    // eval(pry.it);
+    User.findById(t_user._doc._id, function(err, user) {
+          if (err) {
+            return res.json({
+                  success: false,
+                  message: "Error occured: " + err
+              });
+          } else {
+            console.log(user);
+            if (user){
+              return res.json({
+                      success: true,
+                      username: user.username,
+                      email: user.email,
+                      token: user.token
+                    });
+            }else{
+              return res.json({
+                    success: false,
+                    message: "Failed to find user with that token"
+                });
+            }
+          }
+      });
+  });
 };
 
 exports.ensureAuthorized = function (req, res, next) {
@@ -150,3 +171,23 @@ exports.ensureAuthorized = function (req, res, next) {
         res.send(403);
     }
 };
+//
+// exports.ensureSessionAuth = function (req, res, next) {
+//   if(req.session.email && req.session.token){
+//     User.findOne({token: req.session.token}, function(err, user){
+//       if(err){
+//         res.send(403);
+//       }else if(user){
+//         if(user.email === req.session.email){
+//           next();
+//         }else{
+//           res.send(403);
+//         }
+//       }else{
+//         res.send(403);
+//       }
+//     });
+//   }else{
+//     res.send(403);
+//   }
+// }

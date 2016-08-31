@@ -6,7 +6,7 @@ const winston = require('winston');
 const Hashtag = require('../models/hashtag');
 const Search = require('../models/search');
 const ObjectId = require('mongodb').ObjectID;
-var pry = require('pryjs')
+var pry = require('pryjs');
 
 // TODO: implement this
 
@@ -32,7 +32,6 @@ exports.listHashtags = function(req, res) {
 
 exports.hashtagSearch = function(req, res) {
   console.log(req.body);
-  console.log(req.body.hashtags);
   if(req.body.hashtags.length < 1){
     return res.json({
       success:false,
@@ -40,7 +39,11 @@ exports.hashtagSearch = function(req, res) {
     });
   }
 
-  let tags = req.body.hashtags;
+  // let tags = req.body.hashtags
+  let tags = req.body.hashtags.map(function(tag) {
+      return tag.toLowerCase();
+  });
+  console.log(tags);
   let data = {
     tags: tags,
     title: null
@@ -102,7 +105,7 @@ exports.hashtagSearch = function(req, res) {
     async.waterfall([
       function(callback){
         // will this work???
-        Table.find({"hashtags": {$all: req.body.hashtags}})
+        Table.find({"hashtags": {$all: tags}})
         .sort(sort)
         .limit(20)
         .exec(function(err, tables) {
@@ -156,8 +159,11 @@ exports.detailSearch = function(req, res) {
     });
   }else{
     if(req.body.hashtags && req.body.hashtags.length > 0){
-      console.log(req.body.hashtags );
-      conditions = {$and: [{"hashtags": {$all: req.body.hashtags}}, {$text: {$search: req.body.title}}]};
+      console.log(req.body.hashtags);
+      let tags = req.body.hashtags.map(function(tag) {
+          return tag.toLowerCase();
+      });
+      conditions = {$and: [{"hashtags": {$all: tags}}, {$text: {$search: req.body.title}}]};
     }else { // w/o tags
       // TODO: ADD SCORE
       console.log("JERE");
