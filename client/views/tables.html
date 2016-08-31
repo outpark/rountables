@@ -16,17 +16,137 @@
     <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
 
     <!-- Media query for narrow browser width -->
-  	<link rel="stylesheet" media="only screen and (max-width: 480px)" href="./style/mobile.css">
+  	<link rel="stylesheet" media="only screen and (max-width: 480px)" href="../style/mobile.css">
 
   	<!-- Media query for medium browser width -->
-  	<link rel="stylesheet" media="only screen and (min-width: 481px) and (max-width: 960px)" href="./style/tablet.css">
+  	<link rel="stylesheet" media="only screen and (min-width: 481px) and (max-width: 960px)" href="../style/tablet.css">
 
   	<!-- Media query for full browser width -->
-  	<link rel="stylesheet" media="only screen and (min-width: 961px)" href="./style/style.css">
+  	<link rel="stylesheet" media="only screen and (min-width: 961px)" href="../style/style.css">
 
     <link rel="icon" href="../style/images/RT_Favicon.png">
-
-
-
-
   </head>
+
+  <body>
+    <div class="body-container">
+    <nav class="navbar navbar-default">
+    <div class="container-fluid">
+
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="row">
+  <div class="col-md-2 navbar-header">
+     <a href="index.html"><h2>ROUNTABLES</a></h2>
+   </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+    <div class="col-md-8">
+      <div class="input-group input-group-lg">
+        <input type="text" class="form-control" placeholder="#NYUStern" aria-describedby="basic-addon2">
+        <span class="input-group-addon" id="basic-addon2">Search</span>
+      </div>
+    </div>
+
+    <div class="col-md-1">
+      <button type="button" class="btn btn-primary log-in2" data-toggle="modal" data-target="#login">Log In</button>
+    </div>
+    <div id="login" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          This is supposed to show up
+        </div>
+      </div>
+    </div>
+    
+    <!-- Small modal -->
+
+    <div class="col-md-1">
+    <button type="button" class="col-md-1 btn btn-primary sign-up2" data-toggle="modal" data-target="#sign-up-modal">Sign Up</button>
+</div>
+    <div id="sign-up-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          ...
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+</nav>
+
+
+
+      <!-- <div class="head-container2"> -->
+        <!-- <div class="col-md-2 home">
+          <a href="index.html"><h2>ROUNTABLES</a></h2>
+        </div>
+
+        <div class="col-md-8">
+          <div class="input-group input-group-lg">
+            <input type="text" class="form-control" placeholder="#NYUStern" aria-describedby="basic-addon2">
+            <span class="input-group-addon" id="basic-addon2">Search</span>
+          </div>
+        </div>
+
+        <div class="col-md-1">
+            <button type="button" class="btn btn-primary log-in2" data-toggle="modal" data-target="#sign-up-modal">Log In</button>
+              <div id="sign-up-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                    ...
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        <div class="col-md-1">
+                <button type="button" class="col-md-1 btn btn-primary sign-up2" data-toggle="modal" data-target="#sign-up-modal">Sign Up</button>
+                <div id="sign-up-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                  <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                      ...
+                    </div>
+                  </div>
+                </div>
+            </div> -->
+          <!-- </div> -->
+
+
+
+          <!-- Small modal -->
+
+        <!-- </div> -->
+      <!-- </div> -->
+
+      <div class="container">
+        <div class="box table-container">
+            <div class="table">floating box</div>
+            <div class="table">floating box</div>
+            <div class="table">floating box</div>
+            <div class="table">floating box</div>
+            <div class="table">floating box</div>
+            <div class="table">floating box</div>
+        </div>
+      </div>
+
+    </div>
+
+        <!-- <div class="box side-bar">
+          <ul>
+            Friends
+            <li>John Jones</li>
+            <li>James Morson </li>
+            <li>Bob Billy</li>
+            <li>Adam Garfield</li>
+          </ul>
+        </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
+  <!-- </div>
+  </body>
+  <script src="/client/bundle.js"></script>
+  <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+  <script src="https://use.fontawesome.com/8cbadd1c95.js"></script>
+</html>
