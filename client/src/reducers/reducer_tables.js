@@ -1,5 +1,5 @@
 import { FETCH_TABLES, FETCH_DETAIL_TABLES } from '../actions/search';
-import { LIST_TABLES } from '../actions/list_tables'
+import { LIST_TABLES } from '../actions/list_tables';
 
 export default function (state = [], action) {
   // console.log('Action received', action);

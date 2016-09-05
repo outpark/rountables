@@ -8,6 +8,49 @@ const winston = require('winston');
 
 // TODO: Name functions that are used every where and reuse duplicate ones
 // Think of a good way to paginate
+
+exports.show = function(req, res){
+  if(!req.params.table_id){
+    return res.json({
+      success:false,
+      message: "Table Id is needed!"
+    });
+  }
+
+  Table.findById(req.params.table_id)
+  .exec(function(err, table){
+    if(err){
+      return res.json({
+        success:false,
+        message: "Problem with retrieving table information"
+      });
+    }else{
+      if(!table){
+        return res.json({
+          success:false,
+          message: "Problem with retrieving table from database"
+        });
+      }
+      return res.json({
+        success:true,
+        table: table
+      });
+
+    }
+  });
+}
+
+exports.edit = function(req, res){
+  //TODO: implement this to handle various types of edition?
+  
+}
+
+exports.delete = function(req, res){
+  //TODO: implement this action
+
+}
+
+
 exports.listPosts = function(req, res){
   var conditions = {table_id:req.params.table_id};
   var sort = {_id:-1};
@@ -74,6 +117,7 @@ exports.listMembers = function(req, res){
               winston.warn("Error occcured finding a user");
               callback("Invalid userId: "+err);
             }else{
+              if(!user) {callback("Such user doesn't exist")}
               console.log(user);
               members.push(user);
               callback();
@@ -82,7 +126,7 @@ exports.listMembers = function(req, res){
         }, function(err){
           if(err){
             winston.warn("Error occured in getting member list: "+err);
-            return callback(err, members);
+            return callback(err);
           }else{
             winston.info("Succefully processed all members");
             callback(null, members);
@@ -90,7 +134,7 @@ exports.listMembers = function(req, res){
         });
       }else{
         winston.warn("There's no user");
-        return callback("No existing users", members);
+        return callback("No existing users");
       }
     }
   ], function(err, users){

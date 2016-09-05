@@ -5,7 +5,8 @@ var core_ctrl = require('../controllers/core_ctrl'),
   board_ctrl = require('../controllers/board_ctrl'),
   search_ctrl = require('../controllers/search_ctrl'),
   table_ctrl = require('../controllers/table_ctrl'),
-  colors = require('colors');
+  colors = require('colors'),
+  ensureAuthorized = require('../controllers/user_ctrl').ensureAuthorized;
 
 exports.initApp = function(app) {
   // router.post('/api/users/signin', user_ctrl.signin);
@@ -14,6 +15,10 @@ exports.initApp = function(app) {
   		console.log(colors.yellow(Date.now()));
   		next();
   	});
+
+    app.route('/api/user/:username')
+    .get(user_ctrl.show)
+    .put(user_ctrl.edit)
 
     app.route('/api/users/signin')
     .post(user_ctrl.signin);
@@ -42,6 +47,11 @@ exports.initApp = function(app) {
 
     app.route('/api/search/detail')
     .post(search_ctrl.detailSearch);
+
+    app.route('/api/table/:table_id')
+    .get(table_ctrl.show)
+    .put(table_ctrl.edit)
+    .delete(ensureAuthorized, table_ctrl.delete);
 
     app.route('/api/table/:table_id/createpost')
     .post(table_ctrl.createPost);

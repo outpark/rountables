@@ -13,7 +13,7 @@ exports.signin = function(req, res) {
   if(!req.body.password || !req.body.email || !req.body.password) {
     return res.json({
 			success:false,
-			message:"invalid parameters"});
+			message:"Invalid parameters."});
   }else{
     User.findOne({email:req.body.email}, function(err, user) {
         if(err){
@@ -27,7 +27,7 @@ exports.signin = function(req, res) {
 							if(!isValidPassword(user, req.body.password)){
 								return res.json({
 									success:false,
-									message: "Incorrect password"
+									message: "Incorrect password."
 								});
 							}else{
 								return res.json({
@@ -40,7 +40,7 @@ exports.signin = function(req, res) {
             }else{
                 return res.json({
                     success: false,
-                    message: "Such user doesn't exist"
+                    message: "Such user doesn't exist."
                 });
             }
         }
@@ -55,7 +55,7 @@ exports.signup = function(req, res) {
   if(!req.body.email || !req.body.password || !req.body.username || !req.body.username.isAlphaNumeric()){
 		return res.json({
 			success:false,
-			message:"invalid parameter"
+			message:"Invalid parameters."
 		});
 	}else{
 
@@ -69,7 +69,7 @@ exports.signup = function(req, res) {
         if (user) {
           return res.json({
               success: false,
-              message: "User already exists!"
+              message: "User already exists."
           });
         }else{
           var newUser = new User({
@@ -83,7 +83,7 @@ exports.signup = function(req, res) {
       					console.log(err);
       					return res.json({
       						success:false,
-      						message:"error!"
+      						message:"Failed to save user." + err
       					});
       				}else {
               user.token = jwt.sign(user, config.jwtSecret);
@@ -92,7 +92,7 @@ exports.signup = function(req, res) {
         					console.log(err);
         					return res.json({
         						success:false,
-        						message:"error!!!"
+        						message:"Problem with updating user info from DataBase."
         					});
           			}
                 return res.json({
@@ -122,8 +122,6 @@ exports.me = function(req, res) {
   }
   jwt.verify(req.params.token, config.jwtSecret, function(err, t_user) {
     if (err) throw err;
-
-    // eval(pry.it);
     User.findById(t_user._doc._id, function(err, user) {
           if (err) {
             return res.json({
@@ -131,7 +129,6 @@ exports.me = function(req, res) {
                   message: "Error occured: " + err
               });
           } else {
-            console.log(user);
             if (user){
               return res.json({
                       success: true,
@@ -171,23 +168,100 @@ exports.ensureAuthorized = function (req, res, next) {
         res.send(403);
     }
 };
-//
-// exports.ensureSessionAuth = function (req, res, next) {
-//   if(req.session.email && req.session.token){
-//     User.findOne({token: req.session.token}, function(err, user){
-//       if(err){
-//         res.send(403);
-//       }else if(user){
-//         if(user.email === req.session.email){
-//           next();
-//         }else{
-//           res.send(403);
-//         }
-//       }else{
-//         res.send(403);
-//       }
-//     });
-//   }else{
-//     res.send(403);
-//   }
-// }
+
+exports.show = function(req, res) {
+  if(!req.params.username){
+    return res.json({
+      success:false,
+      message:"Username must exist."
+    });
+  }
+  // populate w/o password!
+  User.findOne({"username":req.params.username})
+  .exec(function(err, user){
+    if(err){
+      return res.json({
+        success:false,
+        message:"Error occured while retrieving user."
+      });
+    }
+    if(user){
+      return res.json({
+        success: true,
+        user: user
+      });
+    }else{
+      return res.json({
+        success:false,
+        message:"Such user doesn't exist."
+      });
+    }
+  });
+}
+
+exports.edit = function(req, res){
+  if(!req.body.which || !req.params.username || !req.body.toWhat){
+    return res.json({
+      success:false,
+      message:"Incorret parameters."
+    });
+  }
+  let userToUpdate = req.params.username;
+  console.log("TO UPDATE:" + req.body.which);
+  User.findOne({"username":userToUpdate})
+  .exec(function(err, user){
+    if(err){
+      return res.json({
+        success:false,
+        message:"Error occured while retrieving user."
+      });
+    }
+    if(user){
+
+      console.log(req.body.which === "introduction");
+      switch(req.body.which){
+        case "introduction":
+          user.introduction = req.body.toWhat;
+          break;
+        case "work":
+          user.work.push(req.body.toWhat);
+          user.markModified("work");
+          break;
+        case "education":
+          user.education.push(req.body.toWhat);
+          user.markModified("education");
+          break;
+        default:
+          return res.json({
+            success:false,
+            message: "Could not update user."
+          });
+      }
+
+      user.save(function(err, updatedUser){
+        if(err){
+          return res.json({
+            success:false,
+            message:"Problem occured while updating user info."
+          });
+        }else{
+          console.log("Is the user updated: "+updatedUser);
+          return res.json({
+            success:true,
+            user: updatedUser
+          });
+        }
+      })
+    }else{
+      return res.json({
+        success:false,
+        message:"Such user doesn't exist."
+      });
+    }
+  });
+
+}
+
+exports.delete = function(req, res){
+
+}

@@ -33,7 +33,6 @@ class UserSignUp extends Component {
    this.props.userSignUp(props)
     .then((response) => {
       // handle jwt store here
-      debugger;
       if(response.payload.data.success === true){
         this.signUpClose;
         sessionStorage.setItem('jwtToken', response.payload.data.token);
@@ -82,27 +81,27 @@ class UserSignUp extends Component {
           <Modal.Body>
 
               <h4>Please Enter Following <OverlayTrigger overlay={popover}><a href="#">Credentials</a></OverlayTrigger></h4>
-              <div className={`form-group ${username.touched && username.invalid ? 'has-danger' : ''}`}>
+              <div className={`form-group ${username.touched && username.invalid ? 'has-error' : ''}`}>
                 <input type="text" className="form-control" placeholder="Username" aria-describedby="basic-addon1" {...username} />
-                <div className="text-help">
+                <div className="help-block">
                   {username.touched ? username.error : ''}
                 </div>
               </div>
-              <div className={`form-group ${email.touched && email.invalid ? 'has-danger' : ''}`}>
+              <div className={`form-group ${email.touched && email.invalid ? 'has-error' : ''}`}>
                 <input type="text" className="form-control" placeholder="Email" aria-describedby="basic-addon1" {...email}/>
-                <div className="text-help">
+                <div className="help-block">
                   {email.touched ? email.error : ''}
                 </div>
               </div>
-              <div className={`form-group ${password.touched && password.invalid ? 'has-danger' : ''}`}>
+              <div className={`form-group ${password.touched && password.invalid ? 'has-error' : ''}`}>
                 <input type="password" className="form-control" placeholder="Password" aria-describedby="basic-addon1" {...password}/>
-                <div className="text-help">
+                <div className="help-block">
                   {password.touched ? password.error : ''}
                 </div>
               </div>
-              <div className={`form-group ${confirm.touched && confirm.invalid ? 'has-danger' : ''}`}>
+              <div className={`form-group ${confirm.touched && confirm.invalid ? 'has-error' : ''}`}>
                 <input type="password" className="form-control" placeholder="Confirm" aria-describedby="basic-addon1" {...confirm}/>
-                <div className="text-help">
+                <div className="help-block">
                   {confirm.touched ? confirm.error : ''}
                 </div>
               </div>
@@ -143,6 +142,9 @@ function validate(values){
     if(values.password.length < 5){
       errors.password = 'Password must be longer than 4 letters'
     }
+  }
+  if(/\s/.test(values.username)){
+    errors.username = "Please, remove whitespace."
   }
   return errors;
 }

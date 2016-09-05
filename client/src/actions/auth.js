@@ -39,7 +39,6 @@ export function userLogIn(userInput) {
       password: userInput.password
     }
   });
-  console.log('Request:', request);
   return {
     type: USER_LOGIN,
     payload: request
@@ -52,7 +51,6 @@ export function meFromToken(tokenFromStorage) {
   const URL = `${ROOT_URL}/users/me`
   const request = axios.get(`${ROOT_URL}/users/me/${tokenFromStorage}`);
 
-  console.log('Request:', request);
   return {
     type: ME_FROM_TOKEN,
     payload: request

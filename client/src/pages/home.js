@@ -4,7 +4,7 @@ import TableList from '../containers/table_list';
 import AuthModals from '../containers/auth_modals';
 import TableCreate from '../containers/table_create';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import Logo from './logo';
+import Logo from '../components/logo';
 
 export default class Home extends Component {
   componentDidMount(){

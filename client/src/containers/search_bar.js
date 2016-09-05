@@ -99,8 +99,8 @@ class SearchBar extends Component {
          return;
        }else{
          let tags;
-         if(this.state.hashtag.length > 1){
-           tags = this.state.hashtag.split(/[ ,]+/);
+         if(this.state.hashtag.length > 0){
+           tags = hashtagValidate(this.state.hashtag);
          }
          this.props.fetchDetailTables(tags, this.state.detailTitle)
          .then(() => {
@@ -115,12 +115,16 @@ class SearchBar extends Component {
          });
        }
      }else{
+       // handle one hashtag search
        let tags = this.state.hashtag.split(/[ ,]+/);
        this.props.fetchTables(tags)
        .then(() => {
          this.setState({ hashtag: tags });
          this.context.router.push({ //browserHistory.push should also work here
-          pathname: "show"
+          pathname: "show",
+          query: {
+            hashtag: tags
+           }
         });
        });
 
@@ -166,6 +170,14 @@ class SearchBar extends Component {
       </div>
 
     );
+  }
+}
+
+function hashtagValidate(tagsToCheck){
+  if(typeof tagsToCheck === 'string'){
+    return tagsToCheck.split(/[ ,]+/);
+  }else{
+    return tagsToCheck;
   }
 }
 

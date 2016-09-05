@@ -4,7 +4,7 @@ const Table = require('../models/table');
 const Board = require('../models/board');
 const winston = require('winston');
 const Hashtag = require('../models/hashtag');
-
+const pry = require('pryjs');
 
 exports.listTables = function(req, res) {
   // define conditions by categories
@@ -59,7 +59,7 @@ exports.createTable = function(req, res) {
           }else if(table){
             return res.json({
               success:false,
-              message:"A table already exists with that title"
+              message:"Same title already exists."
             });
           }else{
             callback(null);
@@ -191,9 +191,13 @@ exports.createTable = function(req, res) {
     });
   }
 };
+
+// Possible bug in this.. when handling uppercase letters.
 function hashtagHandler(hashtags, myTable) {
   winston.info("hashtags in process..."+myTable.title);
   async.each(hashtags, function(tag, callback){
+    console.log(tag);
+    tag = tag.toLowerCase();
     Hashtag.findOneAndUpdate({tag_name:tag}, {$inc:{count:1}}, function(err, hashtag){
       if(err){
         winston.warn("Error occured while handling hashtags: "+err);

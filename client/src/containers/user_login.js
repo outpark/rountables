@@ -79,15 +79,15 @@ class UserLogIn extends Component {
           <Modal.Body>
               <h4>Please Enter Following <OverlayTrigger overlay={popover}><a href="#">Credentials</a></OverlayTrigger></h4>
 
-              <div className={`form-group ${email.touched && email.invalid ? 'has-danger' : ''}`}>
+              <div className={`form-group ${email.touched && email.invalid ? 'has-error' : ''}`}>
                 <input type="text" className="form-control" placeholder="Email" aria-describedby="basic-addon1" {...email}/>
-                <div className="text-help">
+                <div className="help-block">
                   {email.touched ? email.error : ''}
                 </div>
               </div>
-              <div className={`form-group ${password.touched && password.invalid ? 'has-danger' : ''}`}>
+              <div className={`form-group ${password.touched && password.invalid ? 'has-error' : ''}`}>
                 <input type="password" className="form-control" placeholder="Password" aria-describedby="basic-addon1" {...password}/>
-                <div className="text-help">
+                <div className="help-block">
                   {password.touched ? password.error : ''}
                 </div>
               </div>

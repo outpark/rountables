@@ -3,7 +3,7 @@ import SearchBar from '../containers/search_bar';
 import TableShowList from '../containers/table_show_list';
 import AuthModals from '../containers/auth_modals';
 import TableCreate from '../containers/table_create';
-import Logo from './logo';
+import Logo from '../components/logo';
 
 export default class Show extends Component {
   render() {
@@ -13,7 +13,7 @@ export default class Show extends Component {
         <TableCreate />
         <AuthModals />
         <SearchBar {...this.props} />
-        <TableShowList />
+        <TableShowList {...this.props} />
       </div>
     );
   }

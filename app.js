@@ -3,9 +3,9 @@ const path = require('path');
 // const Promise = require("bluebird");
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
-const MongoStore = require('connect-mongo')(session);
+// const session = require('express-session');
+// const cookieParser = require('cookie-parser');
+// const MongoStore = require('connect-mongo')(session);
 const winston = require('winston');
 const assert = require('assert');
 const config = require('./app/config.js');
@@ -31,13 +31,13 @@ db.on("error", function(err){
 socketEvents(io);
 
 app.use(express.static(path.join(__dirname +'/client')));
-app.use(cookieParser());
-app.use(session({
-  secret: config.secret,
-  saveUninitialized: true,
-  resave: true,
-  store: new MongoStore({ mongooseConnection: db })
-}));
+// app.use(cookieParser());
+// app.use(session({
+//   secret: config.secret,
+//   saveUninitialized: true,
+//   resave: true,
+//   store: new MongoStore({ mongooseConnection: db })
+// }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
