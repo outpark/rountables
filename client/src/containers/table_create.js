@@ -27,7 +27,7 @@ class TableCreate extends Component {
   }
 
   tableCreateOpen() {
-    if(this.props.userData === undefined || !this.props.userData.user){
+    if(this.props.userData === undefined){
       NotificationManager.warning(`You have to log in first.`, `Open Unsuccessful`);
     }else{
       this.setState({ showTableCreateModal: true });
@@ -155,7 +155,7 @@ function validate(values){
 // connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
 // reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
 function mapStateToProps(state){
-  return { userData: state.user };
+  return { userData: state.userData.user };
 }
 
 export default reduxForm({
