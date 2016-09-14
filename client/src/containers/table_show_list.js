@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { listTables } from '../actions/list_tables';
 import { fetchTables, fetchDetailTables } from '../actions/search';
-import { Button, Modal, OverlayTrigger } from 'react-bootstrap';
+import { Button, Modal, OverlayTrigger, Carousel } from 'react-bootstrap';
 import { Link } from 'react-router';
 
 // import GoogleMap from '../components/google_map';
@@ -45,6 +45,10 @@ class TableShowList extends Component {
     this.props.fetchTables(hashtag);
   }
 
+  renderSidebar(){
+
+  }
+
   renderTable(tableData){
     if(!tableData){
       console.log("No table data.");
@@ -54,35 +58,62 @@ class TableShowList extends Component {
     const hashtags = tableData.hashtags;
     const myThis = this;
     return(
-      <li className="col-md-3 table-show" key={ID}>
-      <Link to={`/table/${ID}`}>{title}</Link>
-      <div className="hashtags">
-      {hashtags.map(function(tag){
-        return <Link onClick={myThis.handleClick} name={tag} key={tag} to={`/show/?hashtag=${tag}`}>#{tag} </Link>
-      })} </div>
+
+      <li className="col-md-6 col-xs-12 col-lg-4" key={ID}>
+        <Carousel className="table-show round-border">
+        <Carousel.Item>
+          <img width={245} height={245} src="/img/nyc.jpg"/>
+          <Carousel.Caption>
+            <Link to={`/table/${ID}`} className="t-title-show">{title}</Link>
+            <div className="hashtags-show">
+            {hashtags.map(function(tag){
+              return <Link to={`/show/?hashtag=${tag}`} key={tag} onClick={myThis.handleClick}>#{tag} </Link>
+            })} </div>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <img width={245} height={245} src="/img/nyc.jpg"/>
+          <Carousel.Caption>
+            <p>{tableData.description}</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        </Carousel>
+
       </li>
+
     );
   }
 
   render() {
     let curTitle = "";
-    if(this.props.tables === undefined){
+    if(this.props.tables === undefined || this.props.tables.length === undefined){
       return(
-        <div className='col-md-12'>...loading</div>
+        <i className="fa fa-spinner fa-spin fa-3x fa-fw spinner-container col-md-12 col-xs-12" style={{fontSize:100}}></i>
       );
     }else{
       if(this.props.location.query.title){
         curTitle = this.props.location.query.title;
       }
     }
+    let hashtags = hashtagValidate(this.props.location.query.hashtag);
+    let thisHolder = this;
+    //make tha hashtags links
     return (
-      <div>
-        <div className="col-md-12">
-          #{this.props.location.query.hashtag} {curTitle}
+      <div className="col-md-12">
+        <div className="col-md-12 search-results">
+        {hashtags.map((tag)=>{
+          return <Link to={`/show/?hashtag=${tag}`} key={tag}>#{tag} </Link>
+        })}
+           {curTitle}
         </div>
-        <ul className="col-md-10 col-lg-10">
-        {this.props.tables.map(this.renderTable)}
-        </ul>
+        <div>
+          <ul className="show-tables col-md-10 col-lg-10">
+          {this.props.tables.map(this.renderTable)}
+          </ul>
+          <div className="col-md-2 col-lg-2 show-side-bar">
+            {this.renderSidebar()}
+          </div>
+        </div>
       </div>
 
     );

@@ -56,6 +56,9 @@ exports.initApp = function(app) {
     app.route('/api/table/:table_id/createpost')
     .post(table_ctrl.createPost);
 
+    app.route('/api/table/:table_id/list')
+    .get(table_ctrl.listPosts);
+
     app.route('/api/table/:table_id/join')
     .put(table_ctrl.addMember); // this name isn't great
 
@@ -69,7 +72,7 @@ exports.initApp = function(app) {
     .get(table_ctrl.listPosts);
 
     app.route('/api/table/:table_id/posts/:post_id/delete')
-    .put(table_ctrl.deletePost);
+    .delete(table_ctrl.deletePost);
 
     app.route('/api/table/:table_id/posts/:post_id/update')
     .put(table_ctrl.updatePost);

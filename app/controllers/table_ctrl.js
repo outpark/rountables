@@ -42,7 +42,7 @@ exports.show = function(req, res){
 
 exports.edit = function(req, res){
   //TODO: implement this to handle various types of edition?
-  
+
 }
 
 exports.delete = function(req, res){
@@ -56,6 +56,7 @@ exports.listPosts = function(req, res){
   var sort = {_id:-1};
 
 // below is not good. we shoud get the ids saved in tables and find post with those ids. this will look for all the posts.
+  console.log("Getting the posts");
   async.waterfall([
     function(callback){
       Post.find(conditions)
@@ -160,7 +161,7 @@ exports.createPost = function(req, res){
     winston.warn("Invalid inputs in creating a post");
     return res.json({
       success: false,
-      message: "Invalid inputs"
+      message: "Invalid Inputs."
     });
   }else{
     // update with video or images
@@ -219,6 +220,12 @@ exports.updatePost = function(req, res) {
 };
 
 exports.deletePost = function(req, res) {
+
+  Table.findOne({})
+  .exec(function(err, table){
+
+  });
+
   Post.findByIdAndRemove(req.params.post_id, function(err, post) {
   if(err){
     return res.json({success:false, message:err});
@@ -234,7 +241,7 @@ exports.addMember = function(req, res) {
   // case1: table is private
   // case2: table is public
   // case3: admin invites an user
-  if(!req.params.table_id || !req.body.user_id){
+  if(!req.params.table_id || !req.body.username){
     return res.json({
       success:false,
       message:"Invalid parameters"
@@ -255,7 +262,7 @@ exports.addMember = function(req, res) {
         }
       });
     }, function(table, callback){
-      User.findOne({_id:req.body.user_id})
+      User.findOne({'username':req.body.username})
       .exec(function(err, user){
         if(err){
           return res.json({
@@ -342,7 +349,6 @@ exports.approve = function(req, res){
           }
         });
       }, function(user, callback){
-
         Table.findByIdAndUpdate(req.params.table_id,{ $pull: { "join_request": { _id: user._id}}},{new: true},
         function(err, myTable){
           if(err){

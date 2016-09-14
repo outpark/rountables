@@ -13,8 +13,6 @@ export default class User extends Component {
   render() {
     return (
       <div>
-        <Logo />
-        <AuthModals />
         <UserProfileAndInfo {...this.props} />
       </div>
     );

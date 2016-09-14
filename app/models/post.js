@@ -3,10 +3,7 @@ const Schema = mongoose.Schema;
 
 const postSchema  = new Schema ({
   content: {type:String, required:true},
-  author:{
-    user_id:{type:Schema.ObjectId},
-    username:{type:String}
-  },
+  author:{type:String, required:true},
   color:String,
   comment_num:{type:Number, default:0},
 	comment_id:[{type:Schema.ObjectId, ref:'Comment'}],

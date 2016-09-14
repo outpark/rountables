@@ -1,5 +1,6 @@
 import { FETCH_TABLES, FETCH_DETAIL_TABLES } from '../actions/search';
 import { LIST_TABLES } from '../actions/list_tables';
+import { GET_TABLE } from '../actions/table';
 
 export default function (state = [], action) {
   // console.log('Action received', action);
@@ -18,6 +19,10 @@ export default function (state = [], action) {
       return Object.assign({}, state, {
         tables: action.payload.data.data
       });
+    case GET_TABLE:
+    return Object.assign({}, state, {
+      tables: action.payload.data.table
+    });
   }
 
   return state;

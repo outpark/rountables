@@ -133,8 +133,8 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div>
-        <div className="col-xs-12 col-md-12 search-container">
+      <div className="search-container">
+        <div className="col-xs-12 col-md-12 col-lg-12">
           <form onSubmit={this.onFormSubmit} className="input-group">
             <input
               placeholder="#NYU"
@@ -154,7 +154,7 @@ class SearchBar extends Component {
               onKeyPress={this.onSpacebar}
             />
             <span className="input-group-btn">
-              <button type="submit" className="btn btn-secondary">
+              <button type="submit" className="btn default-button">
               Search
               </button>
             </span>

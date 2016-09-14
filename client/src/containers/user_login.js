@@ -62,10 +62,9 @@ class UserLogIn extends Component {
       <div>
         <div className="btn-cotainer">
           <Button
-            bsStyle="primary"
             bsSize="sm"
             onClick={this.logInOpen}
-            className="pull-right"
+            className="pull-right default-button"
           >
             Log In
           </Button>
@@ -95,7 +94,7 @@ class UserLogIn extends Component {
             <p>there is a <OverlayTrigger overlay={tooltip}><a href="#">tooltip</a></OverlayTrigger> here</p>
           </Modal.Body>
           <Modal.Footer>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn default-button">
               Submit
             </button>
             <Button onClick={this.logInClose}>Close</Button>

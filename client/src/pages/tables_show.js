@@ -8,7 +8,7 @@ import Logo from '../components/logo';
 export default class Show extends Component {
   render() {
     return (
-      <div>
+      <div className="show-page">
         <Logo />
         <TableCreate />
         <AuthModals />

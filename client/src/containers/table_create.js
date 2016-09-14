@@ -27,8 +27,8 @@ export default class TableCreate extends Component {
   }
 
   tableCreateOpen() {
-    if(!this.props.userData.user){
-      NotificationManager.warning(`You have to log in first.`, `Log In Unsuccessful`);
+    if(this.props.userData === undefined || !this.props.userData.user){
+      NotificationManager.warning(`You have to log in first.`, `Open Unsuccessful`);
     }else{
       this.setState({ showTableCreateModal: true });
     }
@@ -67,10 +67,9 @@ export default class TableCreate extends Component {
       <div>
         <div className="btn-cotainer col-xs-4 col-md-2">
           <Button
-            bsStyle="primary"
             bsSize="sm"
             onClick={this.tableCreateOpen}
-            className="pull-left"
+            className="pull-left default-button"
           >
             Create Table
           </Button>
@@ -126,7 +125,7 @@ export default class TableCreate extends Component {
 
           </Modal.Body>
           <Modal.Footer>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn default-button">
               Submit
             </button>
             <Button onClick={this.tableCreateClose}>Close</Button>

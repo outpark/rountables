@@ -25,10 +25,9 @@ export default class UserLogOut extends Component {
       <div>
         <div className="btn-cotainer">
           <Button
-            bsStyle="primary"
             bsSize="sm"
             onClick={this.userLogOut}
-            className="pull-right"
+            className="pull-right default-button"
           >
             Log Out
           </Button>

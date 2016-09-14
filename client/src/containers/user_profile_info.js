@@ -6,13 +6,16 @@ import { getUser, updateUser } from '../actions/user';
 import { meFromTokenSuccess } from '../actions/auth';
 import { Button, Modal, Popover, Tooltip, OverlayTrigger, Fade, Well } from 'react-bootstrap';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import AuthModals from '../containers/auth_modals';
+import Logo from '../components/logo';
 
 
 class UserProfileAndInfo extends Component {
   constructor(props){
-    super(props)
+    super(props);
     this.state = {
         profileData: {},
+        user:{},
         username:"",
         me:{},
         intro:"",
@@ -28,9 +31,6 @@ class UserProfileAndInfo extends Component {
   componentWillMount(){
     if(this.props.userData){
       this.props.getUser(this.props.userData.username);
-    }
-    else if(this.state.profileData.username){
-      console.log(this.state.profileData.username);
     }
     else if(this.props.location){
       this.setState({username:this.props.location.pathname.substring(6)});
@@ -58,7 +58,6 @@ class UserProfileAndInfo extends Component {
   }
 
   onSubmitIntro(event){
-    console.log(event);
     event.preventDefault();
 
     const requestInput = {
@@ -70,7 +69,6 @@ class UserProfileAndInfo extends Component {
   }
 
   onSubmitWork(event){
-    console.log(event);
     event.preventDefault();
 
     const requestInput = {
@@ -81,7 +79,6 @@ class UserProfileAndInfo extends Component {
     this.setState({ workOpen: !this.state.workOpen });
   }
   onSubmitEdu(event){
-    console.log(event);
     event.preventDefault();
 
     const requestInput = {
@@ -141,7 +138,7 @@ class UserProfileAndInfo extends Component {
           </Fade>
         </div>
         <div className="user-work col-md-6 col-xs-6">
-          Work
+          <h4>Work</h4>
           <hr/>
           <ul className="col-md-4">{work.map((title)=>{
             return <li key={title}>{title}</li>
@@ -158,7 +155,7 @@ class UserProfileAndInfo extends Component {
           </Fade>
         </div>
         <div className="user-edu col-md-6 col-xs-6">
-          Education
+          <h4>Education</h4>
           <hr/>
           <ul className="col-md-4">{education.map((title)=>{
             return <li key={title}>{title}</li>
@@ -180,7 +177,9 @@ class UserProfileAndInfo extends Component {
 
   render() {
     if($.isEmptyObject(this.props.profileData) === true){
-      return(<div>Loading...</div>);
+      return(
+        <i className="fa fa-spinner fa-spin fa-3x fa-fw spinner-container col-md-12" style={{fontSize:100}}></i>
+      );
     }
     if(this.props.profileData.success === false){
       NotificationManager.warning(`This is not a real user.`, `User does not exist`);
@@ -190,25 +189,29 @@ class UserProfileAndInfo extends Component {
         </div>
       );
     }else{
-      let curUser = this.state.user;
+
+      let curUser = this.props.profileData.user;
       let image = hasImage(curUser);
+
       return (
         <div>
           <div className="user-header">
+            <div className="col-md-12 col-lg-12">
+              <Logo />
+              <AuthModals />
+            </div>
             <div className="user-main-info">
               <img className="img-circle" src={image}/>
               <div className="user-main-info-text">{curUser.username}</div>
             </div>
             <div className="user-main-buttons-group">
               <Button
-                bsStyle="primary"
-                className="profile-button-left"
+                className="profile-button-left default-button"
               >
                 Profile
               </Button>
               <Button
-                bsStyle="primary"
-                className="profile-button-right"
+                className="profile-button-right default-button"
               >
                 Info
               </Button>
