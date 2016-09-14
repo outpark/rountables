@@ -7,7 +7,7 @@ import { Button, Modal, Popover, Tooltip, OverlayTrigger, Radio } from 'react-bo
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { meFromTokenSuccess, meFromTokenFailure } from '../actions/auth';
 
-export default class TableCreate extends Component {
+class TableCreate extends Component {
   static contextTypes = {
     router: PropTypes.object
   };

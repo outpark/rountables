@@ -7,7 +7,7 @@ import { Button, Modal, Popover, Tooltip, OverlayTrigger } from 'react-bootstrap
 import { resetToken } from '../actions/auth';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
-export default class UserLogOut extends Component {
+class UserLogOut extends Component {
 
   constructor(props){
     super(props)

@@ -220,10 +220,14 @@ exports.updatePost = function(req, res) {
 };
 
 exports.deletePost = function(req, res) {
-
-  Table.findOne({})
-  .exec(function(err, table){
-
+  Table.findByIdAndUpdate(req.parms.table_id,{$pull:{ "member_list": {_id:req.body.user_id}}},{new: true},
+    function(err, table){
+      if(err){
+        return callback("Failed to remove table_id from user");
+      }else{
+        winston.info("Removed member_list from table");
+        callback(null, user, table);
+      }
   });
 
   Post.findByIdAndRemove(req.params.post_id, function(err, post) {

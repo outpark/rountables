@@ -7,7 +7,7 @@ import { meFromToken, meFromTokenSuccess, meFromTokenFailure, resetToken } from 
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 
-export default class App extends Component {
+class App extends Component {
   componentWillMount() {
     this.props.loadUserFromToken();
   }
