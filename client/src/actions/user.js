@@ -1,5 +1,5 @@
 import axios from 'axios';
-const ROOT_URL = `http://127.0.0.1:5000/api`;
+const ROOT_URL = `http://159.203.121.58:5000/api`;
 export const GET_USER = 'GET_USER';
 export const UPDATE_USER = 'UPDATE_USER';
 

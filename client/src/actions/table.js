@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ROOT_URL = `http://127.0.0.1:5000/api`
+const ROOT_URL = `http://159.203.121.58:5000/api`
 export const CREATE_NEW_TABLE = 'CREATE_NEW_TABLE';
 export const GET_TABLE = 'GET_TABLE';
 export const NEW_POST = 'NEW_POST';
