@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ROOT_URL = `http://159.203.121.58/:5000/api`
+const ROOT_URL = `http://159.203.121.58:5000/api`
 export const USER_SIGNUP = 'USER_SIGNUP';
 export const ME_FROM_TOKEN = 'ME_FROM_TOKEN';
 export const USER_LOGIN = 'USER_LOGIN';
