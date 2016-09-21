@@ -24,6 +24,7 @@ class TableBoard extends Component {
     }
 
     this.onContentChange = this.onContentChange.bind(this);
+    this.onClickX = this.onClickX.bind(this);
   }
 
   componentWillMount(){
@@ -56,7 +57,12 @@ class TableBoard extends Component {
   }
 
   deletePost(postId){
-    
+
+  }
+
+  onClickX(postId){
+    console.log(postId);
+    NotificationManager.warning(`Should delete this post`, `Not implemented`);
   }
 
   onSubmitPost(event){
@@ -135,17 +141,22 @@ class TableBoard extends Component {
 
       return(
         <div key={post._id} className="col-md-6 col-xs-12 col-lg-6">
-        <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        <Panel header={title}>
-          {post.content}
-        </Panel>
+          <Button bsStyle="link" bsSize="xsmall" onClick={()=>this.onClickX(post._id)}>
+            <span className="glyphicon glyphicon-remove" aria-hidden="true">
+            </span>
+          </Button>
+          <Panel header={title}>
+            {post.content}
+          </Panel>
         </ div>
       );
     }else{
       return(
         <div key={post._id} className="col-md-6 col-xs-12 col-lg-6">
-          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          <Panel header={title} bsStyle={color}>
+        <Button bsStyle="link" bsSize="xsmall" onClick={()=>this.onClickX(post._id)}>
+          <span className="glyphicon glyphicon-remove" aria-hidden="true">
+          </span></Button>
+        <Panel header={title} bsStyle={color}>
             {post.content}
           </Panel>
         </div>
@@ -173,7 +184,7 @@ class TableBoard extends Component {
       // }
       return(
         <div>
-          {this.props.posts.map(this.renderPost)}
+          {this.props.posts.map(this.renderPost.bind(this))}
             {this.renderInput()}
         </div>
       );

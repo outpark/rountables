@@ -195,7 +195,7 @@ class TableHeader extends Component {
     let isChatClicked = this.state.chatClick;
     let isPrivate = this.state.isPrivate;
     let user = this.props.currentUser;
-    console.log(this.state.isAdmin);
+    // console.log(this.state.isAdmin);
     return(
       <div>
         <div className="table-page-title col-md-12 col-xs-12 col-lg-12">
