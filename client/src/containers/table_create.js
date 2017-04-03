@@ -34,14 +34,12 @@ class TableCreate extends Component {
     }
   }
 
-
-
   onSubmit(props) {
-    if(!this.props.userData.user){
+    if(!this.props.userData.token){
       NotificationManager.warning(`You have to log in first.`, `Log In Unsuccessful`);
       return;
     }
-    props.creator = this.props.userData.user.username;
+    props.creator = this.props.userData.username;
     props.hashtags = props.hashtags.split(/[ ,]+/);
     this.props.createNewTable(props)
     .then((response) => {
